@@ -34,6 +34,9 @@ def random_walk(n, d, rand, *args):
     at each step is distributed according to a probability distribution
     function rand.
 
+    This is a practical example of the Central Limit Theorem, where large
+    sums of any IID random variables will be distributed as a gaussian.
+
     TODO: Is there a way of generating random samples in parallel,
           then summing along each axis cumulatively to speed up
           this computation? It is unbearably slow as it is...
@@ -43,10 +46,25 @@ def random_walk(n, d, rand, *args):
         for j in range(d):
             m[i, j] = rand(*args) + m[i-1, j] # m[-1, :] is 0 on init
     return m
-    
+
+def random_walk_ensemble(n, s, rand, *args):
+    """
+    Plotting utility for s samples of n-step random walks in 2 dimensions.
+    """
+    _, ax = plt.subplots()
+    plt.gca().set_aspect("equal")
+    ps = np.array([random_walk(n, 2, rand, *args)[-1, :] for _ in range(s)])
+    circ = plt.Circle((0, 0), np.sqrt(n), fill=False)
+    ax.add_patch(circ)
+    plt.scatter(ps[:, 0], ps[:, 1], s=1000/s)
+    plt.title("Random Walk Endpoints for Standard Normal Distribution Steps With "+str(n)+" Steps and "+str(s)+" Trials.")
+    plt.xlabel("final x displacement")
+    plt.ylabel("final y displacement")
+    ax.legend([circ], [r'$\sigma = \sqrt{N}$'], loc="best")
+    plt.show()
+    return
     
 if __name__ == "__main__":
     pass
     # temporary main for testing
-    
     
