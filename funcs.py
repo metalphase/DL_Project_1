@@ -32,10 +32,7 @@ def random_walk(n, d, rand, *args):
     """
     Simulate n steps of a d-dimensional random walk where the random walk
     at each step is distributed according to a probability distribution
-    function rand.
-
-    This is a practical example of the Central Limit Theorem, where large
-    sums of any IID random variables will be distributed as a gaussian.
+    function rand. *args are the arguments to be passed into rand.
 
     TODO: Is there a way of generating random samples in parallel,
           then summing along each axis cumulatively to speed up
@@ -50,6 +47,10 @@ def random_walk(n, d, rand, *args):
 def random_walk_ensemble(n, s, rand, *args):
     """
     Plotting utility for s samples of n-step random walks in 2 dimensions.
+    This is an example of the Central Limit Theorem in action; no matter
+    what probability distribution you put in for rand (even a dirac-delta
+    function), you will observe some form of a gaussian distribution. *args
+    are the arguments to be passed into rand.
     """
     _, ax = plt.subplots()
     plt.gca().set_aspect("equal")
